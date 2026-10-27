@@ -13,7 +13,7 @@
 //              2 tornillos M3/M4 para el motor,
 //              6 tornillos M3x8 avellanados (rosca chapa) desde debajo de la caja para los soportes,
 //              2 tornillos M2 de rosca chapa para la placa del PIR,
-//              12 tornillos de rosca chapa M3 / 2,9 x 10 para las placas electrónicas (sobran algunas columnas).
+//              10 tornillos de rosca chapa M3 / 2,9 x 10 y 2 de M2 x 8 para las placas electrónicas.
 // Sonido: módulo grabador de voz (30/120 s) + altavoz 8 ohm 2 W tras la rejilla frontal.
 
 MODO = "montaje";
@@ -90,7 +90,7 @@ alt_rejilla_d = 2.5;   // agujeros de la rejilla
 
 // Placas electrónicas: van de pie, atornilladas a la pared TRASERA con columnas
 // (el Uno no cabe tumbado entre el mecanismo y la pared). Componentes mirando hacia dentro.
-// Formato: [nombre, x del borde izquierdo, z del borde inferior, ancho, alto, [agujeros [u, v] desde la esquina inferior izquierda]]
+// Formato: [nombre, x del borde izquierdo, z del borde inferior, ancho, alto, [agujeros [u, v] desde la esquina inferior izquierda], piloto opcional]
 // Vistas desde dentro de la caja: u hacia la derecha, v hacia arriba.
 columna_l  = 6;        // separación placa-pared (deja sitio a las soldaduras de la cara trasera)
 columna_d  = 6;
@@ -100,10 +100,9 @@ placas = [
     ["Arduino Uno", 25, 14, 68.6, 53.3, [[14.0, 2.5], [15.3, 50.7], [66.1, 7.6], [66.1, 35.5]]],
     // ULN2003: agujeros a 27 x 30 mm (medido), de pie con el lado de 30 en vertical
     ["ULN2003",     104, 28, 32, 35, [[2.5, 2.5], [29.5, 2.5], [2.5, 32.5], [29.5, 32.5]]],
-    // Módulo de sonido: placa 28 x 30, dos agujeros en diagonal a 25 x 5 mm (medido).
-    // Se ponen columnas para las dos diagonales posibles (quedan fundidas de dos en dos):
-    // se usan las dos que coincidan con la placa y las otras quedan libres debajo.
-    ["Sonido",      145, 30, 28, 30, [[1.5, 12.5], [1.5, 17.5], [26.5, 12.5], [26.5, 17.5]]],
+    // Módulo de sonido: placa 28 x 30, agujeros a 25 x 5 mm (medido). Vista por los componentes:
+    // el de la izquierda abajo en la esquina, el de la derecha 5 mm más alto. Agujeros pequeños -> tornillo M2.
+    ["Sonido",      145, 30, 28, 30, [[1.5, 2.5], [26.5, 7.5]], 1.7],
     // Placa perforada con transistor y resistencia (A MEDIR / cortar a 30 x 20)
     ["Transistor",  183, 45, 30, 20, [[2.5, 2.5], [27.5, 17.5]]]
 ];
@@ -261,7 +260,7 @@ module columnas_placas() {
 module pilotos_placas() {
     for (pl = placas, h = pl[5])
         translate([pl[1] + h[0], tapa_fondo / 2 + 1, pl[2] + h[1]])
-            rotate([90, 0, 0]) cylinder(d = columna_pilot, h = columna_l + 2, $fn = 16);
+            rotate([90, 0, 0]) cylinder(d = len(pl) > 6 ? pl[6] : columna_pilot, h = columna_l + 2, $fn = 16);
 }
 
 module placas_fantasma() {
