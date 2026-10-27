@@ -43,7 +43,7 @@ Caja con tres figuras de Halloween (fantasma, momia y parca de una guirnalda LED
 - Arduino Nano o Uno
 - Conector USB-C de panel con cables
 - Módulo grabador de voz (30/120 s), altavoz 8 Ω 2 W (30 mm) y un diodo 1N4007 o 1N4148
-- Tornillería: 3 × M3x8 + arandela (retienen las bielas), 2 × M3/M4 (motor), 6 × M3x8 avellanados de rosca chapa (soportes desde debajo de la caja), 2 × M2 de rosca chapa (PIR)
+- Tornillería: 3 × M3x8 + arandela (retienen las bielas), 2 × M3/M4 (motor), 6 × M3x8 avellanados de rosca chapa (soportes desde debajo de la caja), 2 × M2 de rosca chapa (PIR), 12 × rosca chapa M3/2,9 x 10 (placas electrónicas)
 - Opcional: transistor NPN (2N2222/BC547) + resistencia de 1 kΩ para encender la guirnalda solo mientras bailan
 
 ## Conexiones
@@ -65,6 +65,7 @@ Ajustes del HC-SR501: jumper en **H** (redisparo) y potenciómetro de tiempo al 
 - **USB-C:** muchos conectores de dos cables no llevan las resistencias de 5,1 kΩ en CC. Sin ellas, un cargador USB-C a USB-C no da corriente; usa un cable USB-A a USB-C.
 - **Hueco del USB-C:** está dimensionado con valores típicos (13 × 7 mm). Mide el conector y ajusta `usb_w`, `usb_h` y `usb_pared` en el `.scad`. Conviene imprimir primero un trozo de pared de prueba.
 - **Altavoz:** de 30 mm (`alt_d`). Se coloca con el cono hacia la rejilla dentro del aro y se fija con unos puntos de termocola.
+- **Placas electrónicas:** van de pie en la pared trasera sobre columnas de 6 mm (el Uno no cabe tumbado). Las medidas del Uno son las oficiales; las del ULN2003, el módulo de sonido y la placa del transistor son provisionales: mide la posición de sus agujeros y ajusta la lista `placas` antes de imprimir la caja.
 - **Lente del PIR:** ajusta `pir_sep` según el grosor de la base de la lente.
 - **Motor parado:** el sketch apaga las bobinas al terminar cada baile para que no se caliente.
 
@@ -81,4 +82,6 @@ Mantén el pad REC a masa (o su pulsador) y reproduce el efecto desde el móvil 
 5. Pasa las bielas por los agujeros de la tapa, encaja las paletas y pega las figuras por detrás.
 6. Baja los cables de la guirnalda por los agujeros pequeños, dejando un bucle flojo dentro.
 7. Pega el altavoz en su aro de la pared frontal.
-8. Fija el Arduino, el ULN2003, el módulo de sonido y la pila de la guirnalda con cinta de doble cara en la franja trasera.
+8. Atornilla el Arduino, el ULN2003, el módulo de sonido y la placa del transistor a sus columnas de la pared trasera, con los componentes hacia dentro. La pila de la guirnalda va con cinta de doble cara en el suelo, detrás del mecanismo.
+
+![Interior](docs/interior.png)

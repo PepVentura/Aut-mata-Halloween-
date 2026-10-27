@@ -12,7 +12,8 @@
 // Tornillería: 3 tornillos M3x8 (o rosca chapa 2,5) + arandela para retener las bielas,
 //              2 tornillos M3/M4 para el motor,
 //              6 tornillos M3x8 avellanados (rosca chapa) desde debajo de la caja para los soportes,
-//              2 tornillos M2 de rosca chapa para la placa del PIR.
+//              2 tornillos M2 de rosca chapa para la placa del PIR,
+//              12 tornillos de rosca chapa M3 / 2,9 x 10 para las placas electrónicas.
 // Sonido: módulo grabador de voz (30/120 s) + altavoz 8 ohm 2 W tras la rejilla frontal.
 
 MODO = "montaje";
@@ -86,6 +87,24 @@ alt_x     = pir_x + 55;
 alt_z     = 55;
 alt_aro_h = 3;         // aro interior donde se apoya y se pega el altavoz
 alt_rejilla_d = 2.5;   // agujeros de la rejilla
+
+// Placas electrónicas: van de pie, atornilladas a la pared TRASERA con columnas
+// (el Uno no cabe tumbado entre el mecanismo y la pared). Componentes mirando hacia dentro.
+// Formato: [nombre, x del borde izquierdo, z del borde inferior, ancho, alto, [agujeros [u, v] desde la esquina inferior izquierda]]
+// Vistas desde dentro de la caja: u hacia la derecha, v hacia arriba.
+columna_l  = 6;        // separación placa-pared (deja sitio a las soldaduras de la cara trasera)
+columna_d  = 6;
+columna_pilot = 2.5;   // agujero piloto para tornillo de rosca chapa M3 / 2,9
+placas = [
+    // Arduino Uno R3: medidas oficiales (conector USB y jack a la izquierda)
+    ["Arduino Uno", 25, 14, 68.6, 53.3, [[14.0, 2.5], [15.3, 50.7], [66.1, 7.6], [66.1, 35.5]]],
+    // ULN2003 (A MEDIR: hay varias versiones de esta placa)
+    ["ULN2003",     102, 30, 35, 32, [[2.5, 2.5], [32.5, 2.5], [2.5, 29.5], [32.5, 29.5]]],
+    // Módulo de sonido (A MEDIR: dos agujeros en esquinas opuestas)
+    ["Sonido",      145, 30, 30, 30, [[2.5, 2.5], [27.5, 27.5]]],
+    // Placa perforada con transistor y resistencia (A MEDIR / cortar a 30 x 20)
+    ["Transistor",  183, 45, 30, 20, [[2.5, 2.5], [27.5, 17.5]]]
+];
 
 function hex_ac(ec) = ec / cos(30);
 function x_manivela(i) = x_primera + i * separacion;
@@ -224,6 +243,30 @@ module repisas() {
     }
 }
 
+// Columna horizontal con barbilla a 45° por debajo para imprimir la caja de pie sin soportes
+module columna() {
+    hull() {
+        rotate([90, 0, 0]) cylinder(d = columna_d, h = columna_l);
+        translate([0, -0.01, -columna_l]) rotate([90, 0, 0]) cylinder(d = columna_d, h = 0.01);
+    }
+}
+
+module columnas_placas() {
+    for (pl = placas, h = pl[5])
+        translate([pl[1] + h[0], tapa_fondo / 2, pl[2] + h[1]]) columna();
+}
+
+module pilotos_placas() {
+    for (pl = placas, h = pl[5])
+        translate([pl[1] + h[0], tapa_fondo / 2 + 1, pl[2] + h[1]])
+            rotate([90, 0, 0]) cylinder(d = columna_pilot, h = columna_l + 2, $fn = 16);
+}
+
+module placas_fantasma() {
+    for (pl = placas)
+        translate([pl[1], tapa_fondo / 2 - columna_l - 1.6, pl[2]]) cube([pl[3], 1.6, pl[4]]);
+}
+
 module caja() {
     yi = tapa_fondo / 2;
     h = altura_tapa + grosor_tapa;
@@ -235,6 +278,7 @@ module caja() {
                 translate([tapa_x0, -yi, 0]) cube([tapa_x1 - tapa_x0, 2 * yi, h + 1]);
             }
             repisas();
+            columnas_placas();
             // aro para centrar el altavoz (se pega con unos puntos de termocola)
             translate([alt_x, -tapa_fondo / 2, alt_z]) rotate([-90, 0, 0])
                 difference() { cylinder(d = alt_d + 4, h = alt_aro_h); translate([0, 0, -1]) cylinder(d = alt_d + 0.6, h = alt_aro_h + 2); }
@@ -242,6 +286,7 @@ module caja() {
             for (s = [-1, 1]) translate([pir_x + s * pir_tornillos / 2, -yi, pir_z])
                 rotate([-90, 0, 0]) cylinder(d = 4, h = pir_sep);
         }
+        pilotos_placas();
         // rejilla del altavoz: agujeros en anillos concéntricos
         for (rr = [0 : 4 : alt_d / 2 - 3], k = [0 : max(1, round(2 * PI * rr / 4.5)) - 1])
             let (a = 360 * k / max(1, round(2 * PI * rr / 4.5)))
@@ -293,6 +338,7 @@ module montaje() {
     for (i = [0:2]) figura_en(i, ang);
     color("DarkSlateGray", 0.35) translate([0, 0, altura_tapa]) tapa();
     color("Purple", 0.15) caja();
+    color("ForestGreen", 0.7) placas_fantasma();
 }
 
 module imprimir() {
