@@ -13,6 +13,7 @@
 //              2 tornillos M3/M4 para el motor,
 //              6 tornillos M3x8 avellanados (rosca chapa) desde debajo de la caja para los soportes,
 //              2 tornillos M2 de rosca chapa para la placa del PIR.
+// Sonido: módulo grabador de voz (30/120 s) + altavoz 8 ohm 2 W tras la rejilla frontal.
 
 MODO = "montaje";
 $fn = 48;
@@ -78,6 +79,13 @@ usb_h     = 7;         // alto del hueco
 usb_y     = 25;        // hacia atrás desde el centro
 usb_z     = 14;        // altura sobre el suelo
 usb_pared = 1.6;       // pared adelgazada alrededor para que encajen las pestañas
+
+// Altavoz 8 ohm 2 W en la pared frontal, a la derecha del PIR  (MEDIR el diámetro y ajustar)
+alt_d     = 28;        // diámetro exterior del altavoz
+alt_x     = pir_x + 55;
+alt_z     = 55;
+alt_aro_h = 3;         // aro interior donde se apoya y se pega el altavoz
+alt_rejilla_d = 2.5;   // agujeros de la rejilla
 
 function hex_ac(ec) = ec / cos(30);
 function x_manivela(i) = x_primera + i * separacion;
@@ -227,10 +235,18 @@ module caja() {
                 translate([tapa_x0, -yi, 0]) cube([tapa_x1 - tapa_x0, 2 * yi, h + 1]);
             }
             repisas();
+            // aro para centrar el altavoz (se pega con unos puntos de termocola)
+            translate([alt_x, -tapa_fondo / 2, alt_z]) rotate([-90, 0, 0])
+                difference() { cylinder(d = alt_d + 4, h = alt_aro_h); translate([0, 0, -1]) cylinder(d = alt_d + 0.6, h = alt_aro_h + 2); }
             // postes para la placa del PIR
             for (s = [-1, 1]) translate([pir_x + s * pir_tornillos / 2, -yi, pir_z])
                 rotate([-90, 0, 0]) cylinder(d = 4, h = pir_sep);
         }
+        // rejilla del altavoz: agujeros en anillos concéntricos
+        for (rr = [0 : 4 : alt_d / 2 - 3], k = [0 : max(1, round(2 * PI * rr / 4.5)) - 1])
+            let (a = 360 * k / max(1, round(2 * PI * rr / 4.5)))
+            translate([alt_x + rr * cos(a), -tapa_fondo / 2 + 1, alt_z + rr * sin(a)])
+                rotate([90, 0, 0]) cylinder(d = alt_rejilla_d, h = pared + 2, $fn = 16);
         // ventana de la lente del PIR
         translate([pir_x, -yi + 1, pir_z]) rotate([90, 0, 0]) cylinder(d = pir_lente_d, h = pared + 2);
         for (s = [-1, 1]) translate([pir_x + s * pir_tornillos / 2, -yi - 1, pir_z])
