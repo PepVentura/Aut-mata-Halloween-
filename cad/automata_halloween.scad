@@ -98,8 +98,8 @@ columna_pilot = 2.5;   // agujero piloto para tornillo de rosca chapa M3 / 2,9
 placas = [
     // Arduino Uno R3: medidas oficiales (conector USB y jack a la izquierda)
     ["Arduino Uno", 25, 14, 68.6, 53.3, [[14.0, 2.5], [15.3, 50.7], [66.1, 7.6], [66.1, 35.5]]],
-    // ULN2003 (A MEDIR: hay varias versiones de esta placa)
-    ["ULN2003",     102, 30, 35, 32, [[2.5, 2.5], [32.5, 2.5], [2.5, 29.5], [32.5, 29.5]]],
+    // ULN2003: agujeros a 27 x 30 mm (medido), de pie con el lado de 30 en vertical
+    ["ULN2003",     104, 28, 32, 35, [[2.5, 2.5], [29.5, 2.5], [2.5, 32.5], [29.5, 32.5]]],
     // Módulo de sonido (A MEDIR: dos agujeros en esquinas opuestas)
     ["Sonido",      145, 30, 30, 30, [[2.5, 2.5], [27.5, 27.5]]],
     // Placa perforada con transistor y resistencia (A MEDIR / cortar a 30 x 20)
