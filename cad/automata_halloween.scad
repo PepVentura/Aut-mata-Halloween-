@@ -81,7 +81,7 @@ usb_z     = 14;        // altura sobre el suelo
 usb_pared = 1.6;       // pared adelgazada alrededor para que encajen las pestañas
 
 // Altavoz 8 ohm 2 W en la pared frontal, a la derecha del PIR  (MEDIR el diámetro y ajustar)
-alt_d     = 28;        // diámetro exterior del altavoz
+alt_d     = 30;        // diámetro exterior del altavoz (medido)
 alt_x     = pir_x + 55;
 alt_z     = 55;
 alt_aro_h = 3;         // aro interior donde se apoya y se pega el altavoz
