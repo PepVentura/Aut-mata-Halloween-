@@ -5,6 +5,7 @@
 // MODO = "caja"      -> caja con ventana para el PIR y hueco para el USB-C (imprimir boca arriba)
 // MODO = "tapa"      -> tapa con los agujeros de las varillas y de los cables
 // MODO = "plantilla" -> plantilla 2D de la tapa (por si prefieres hacerla en DM)
+// MODO = "prueba_usb" -> trozo de pared con el hueco del USB-C, para probar antes de la caja
 // MODO = "eje" | "manivela" | "biela" | "paleta" | "acople" | "soporte" | "soporte_motor" -> pieza suelta
 //
 // Piezas a imprimir: 1 eje, 3 manivelas, 3 bielas, 3 paletas, 2 soportes, 1 soporte de motor, 1 acople,
@@ -74,9 +75,9 @@ pir_lente_d   = 23.5;
 pir_tornillos = 28;    // separación entre los agujeros de la placa
 pir_sep       = 4;     // distancia de la placa a la pared (ajusta según la base de la lente)
 
-// Conector USB-C de panel en la pared derecha  (MEDIR cuando llegue y ajustar)
-usb_w     = 13;        // ancho del hueco
-usb_h     = 7;         // alto del hueco
+// Conector USB-C de panel en la pared derecha: frontal medido 12 x 5 mm (+0,4 de holgura)
+usb_w     = 12.4;      // ancho del hueco
+usb_h     = 5.4;       // alto del hueco
 usb_y     = 25;        // hacia atrás desde el centro
 usb_z     = 14;        // altura sobre el suelo
 usb_pared = 1.6;       // pared adelgazada alrededor para que encajen las pestañas
@@ -362,5 +363,8 @@ else if (MODO == "acople") acople();
 else if (MODO == "soporte") soporte();
 else if (MODO == "soporte_motor") soporte_motor();
 else if (MODO == "caja") caja();
+else if (MODO == "prueba_usb")   // trozo de pared para probar el encaje del USB-C (imprimir tumbado)
+    translate([0, 0, tapa_x1 + pared]) rotate([0, 90, 0])
+        intersection() { caja(); translate([tapa_x1 - 4, usb_y - 15, usb_z - 12]) cube([4 + pared, 30, 24]); }
 else if (MODO == "tapa") tapa();
 else if (MODO == "plantilla") tapa_2d();
