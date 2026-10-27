@@ -75,7 +75,8 @@ pir_lente_d   = 23.5;
 pir_tornillos = 28;    // separación entre los agujeros de la placa
 pir_sep       = 4;     // distancia de la placa a la pared (ajusta según la base de la lente)
 
-// Conector USB-C de panel en la pared derecha: frontal medido 12 x 5 mm (+0,4 de holgura)
+// Conector USB-C de panel en la pared derecha: cuerpo medido 12 x 5 mm (+0,4 de holgura).
+// Se mete desde fuera; el frontal más ancho hace de tope y las pestañas enganchan por dentro.
 usb_w     = 12.4;      // ancho del hueco
 usb_h     = 5.4;       // alto del hueco
 usb_y     = 25;        // hacia atrás desde el centro

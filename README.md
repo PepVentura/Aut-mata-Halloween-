@@ -63,7 +63,7 @@ Ajustes del HC-SR501: jumper en **H** (redisparo) y potenciómetro de tiempo al 
 ## Avisos
 
 - **USB-C:** muchos conectores de dos cables no llevan las resistencias de 5,1 kΩ en CC. Sin ellas, un cargador USB-C a USB-C no da corriente; usa un cable USB-A a USB-C.
-- **Hueco del USB-C:** hecho para el frontal medido del conector (12 × 5 mm, con 0,4 mm de holgura). Antes de la caja imprime `stl/prueba_usb.stl` (un trozo de pared de 2 minutos) y, si no encaja, ajusta `usb_w`, `usb_h` y `usb_pared`.
+- **Hueco del USB-C:** hecho para el cuerpo del conector (12 × 5 mm medidos, con 0,4 mm de holgura): el cuerpo atraviesa la pared desde fuera, el frontal más ancho hace de tope y las pestañas enganchan por dentro en la pared rebajada. Antes de la caja imprime `stl/prueba_usb.stl` (un trozo de pared de 2 minutos) y, si no encaja, ajusta `usb_w`, `usb_h` y `usb_pared`.
 - **Altavoz:** de 30 mm (`alt_d`). Se coloca con el cono hacia la rejilla dentro del aro y se fija con unos puntos de termocola.
 - **Placas electrónicas:** van de pie en la pared trasera sobre columnas de 6 mm (el Uno no cabe tumbado). Las medidas del Uno son las oficiales; las del ULN2003 (agujeros a 27 × 30 mm) y el módulo de sonido (placa 28 × 30, agujeros a 25 × 5 mm: el izquierdo abajo y el derecho 5 mm más alto, tornillos M2) están medidas; la placa del transistor es provisional: mide la posición de sus agujeros y ajusta la lista `placas` antes de imprimir la caja.
 - **Lente del PIR:** ajusta `pir_sep` según el grosor de la base de la lente.
