@@ -13,7 +13,7 @@
 //              2 tornillos M3/M4 para el motor,
 //              6 tornillos M3x8 avellanados (rosca chapa) desde debajo de la caja para los soportes,
 //              2 tornillos M2 de rosca chapa para la placa del PIR,
-//              12 tornillos de rosca chapa M3 / 2,9 x 10 para las placas electrónicas.
+//              12 tornillos de rosca chapa M3 / 2,9 x 10 para las placas electrónicas (sobran algunas columnas).
 // Sonido: módulo grabador de voz (30/120 s) + altavoz 8 ohm 2 W tras la rejilla frontal.
 
 MODO = "montaje";
@@ -100,8 +100,10 @@ placas = [
     ["Arduino Uno", 25, 14, 68.6, 53.3, [[14.0, 2.5], [15.3, 50.7], [66.1, 7.6], [66.1, 35.5]]],
     // ULN2003: agujeros a 27 x 30 mm (medido), de pie con el lado de 30 en vertical
     ["ULN2003",     104, 28, 32, 35, [[2.5, 2.5], [29.5, 2.5], [2.5, 32.5], [29.5, 32.5]]],
-    // Módulo de sonido (A MEDIR: dos agujeros en esquinas opuestas)
-    ["Sonido",      145, 30, 30, 30, [[2.5, 2.5], [27.5, 27.5]]],
+    // Módulo de sonido: placa 28 x 30, dos agujeros en diagonal a 25 x 5 mm (medido).
+    // Se ponen columnas para las dos diagonales posibles (quedan fundidas de dos en dos):
+    // se usan las dos que coincidan con la placa y las otras quedan libres debajo.
+    ["Sonido",      145, 30, 28, 30, [[1.5, 12.5], [1.5, 17.5], [26.5, 12.5], [26.5, 17.5]]],
     // Placa perforada con transistor y resistencia (A MEDIR / cortar a 30 x 20)
     ["Transistor",  183, 45, 30, 20, [[2.5, 2.5], [27.5, 17.5]]]
 ];
