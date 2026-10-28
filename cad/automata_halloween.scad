@@ -1,4 +1,4 @@
-// Autómata de Halloween — 3 figuras sobre cigüeñal hexagonal con motor 28BYJ-48
+// Autómata de Halloween — 3 figuras movidas por excéntricas en un eje hexagonal con motor 28BYJ-48
 //
 // MODO = "montaje"   -> vista del conjunto (Ver > Animar con FPS 10, Pasos 36 para verlo bailar)
 // MODO = "imprimir"  -> piezas del mecanismo colocadas para imprimir
@@ -6,12 +6,11 @@
 // MODO = "tapa"      -> tapa con los agujeros de las varillas y de los cables
 // MODO = "plantilla" -> plantilla 2D de la tapa (por si prefieres hacerla en DM)
 // MODO = "prueba_usb" -> trozo de pared con el hueco del USB-C, para probar antes de la caja
-// MODO = "eje" | "manivela" | "biela" | "paleta" | "acople" | "soporte" | "soporte_motor" -> pieza suelta
+// MODO = "eje" | "excentrica" | "arandela" | "biela" | "paleta" | "acople" | "soporte" | "soporte_motor" -> pieza suelta
 //
-// Piezas a imprimir: 1 eje, 3 manivelas, 3 bielas, 3 paletas, 2 soportes, 1 soporte de motor, 1 acople,
+// Piezas a imprimir: 1 eje, 3 excéntricas, 3 arandelas, 3 bielas, 3 paletas, 2 soportes, 1 soporte de motor, 1 acople,
 //                    1 caja y 1 tapa (caben enteras en una cama de 260x260)
-// Tornillería: 3 tornillos M3x8 (o rosca chapa 2,5) + arandela para retener las bielas,
-//              2 tornillos M3/M4 para el motor,
+// Tornillería: 2 tornillos M3/M4 para el motor,
 //              6 tornillos M3x8 avellanados (rosca chapa) desde debajo de la caja para los soportes,
 //              2 tornillos M2 de rosca chapa para la placa del PIR,
 //              10 tornillos de rosca chapa M3 / 2,9 x 10 y 2 de M2 x 8 para las placas electrónicas.
@@ -42,15 +41,21 @@ m_boss_d     = 10;     // agujero para el resalte del eje
 m_eje_d      = 5;
 m_eje_planos = 3;
 
-// Manivela
-disco_d = 26; disco_t = 5;
-pin_d = 5; pin_l = 6; tornillo_d = 2.5;
+// Excéntrica: disco descentrado radio_manivela respecto al eje. El eje queda DENTRO del disco,
+// así que la biela (un collar alrededor del disco) da vueltas completas sin tocar el eje.
+exc_d         = 29;    // disco por el que corre el collar de la biela
+exc_reborde_d = 34;    // rebordes que impiden que el collar se salga
+exc_reborde_t = 1.5;
+juego         = 0.6;   // holgura axial del collar entre rebordes
+exc_t         = biela_grueso_def() + juego;
+collar_holgura = 0.6;  // holgura radial collar-disco
+collar_pared   = 2.5;
+function biela_grueso_def() = 4;
 
 // Biela
 biela_ancho  = 5;      // dirección delante-detrás
-biela_grueso = 4;      // dirección del eje
-anillo_d     = 12;
-biela_l      = 85;     // del centro del pasador a la punta
+biela_grueso = biela_grueso_def();   // dirección del eje
+biela_l      = 85;     // del centro de la excéntrica a la punta
 
 // Paleta donde se pega la figura (por detrás)
 paleta_w = 28; paleta_h = 30; paleta_t = 2.5;
@@ -111,7 +116,7 @@ placas = [
 
 function hex_ac(ec) = ec / cos(30);
 function x_manivela(i) = x_primera + i * separacion;
-function x_varilla(i)  = x_manivela(i) + disco_t + biela_grueso / 2;
+function x_varilla(i)  = x_manivela(i) + exc_reborde_t + juego / 2 + biela_grueso / 2;
 x_soportes = [x_primera + separacion / 2, x_primera + 2 * separacion + 25];
 
 echo(str("Caja exterior: ", tapa_x1 - tapa_x0 + 2 * pared, " x ", tapa_fondo + 2 * pared, " x ", altura_tapa + grosor_tapa + suelo, " mm"));
@@ -128,27 +133,34 @@ module agujero_hex(h) {
     rotate([0, 0, 30]) cylinder(d = hex_ac(hex_ec + holgura), h = h, $fn = 6);
 }
 
-module manivela() {
-    // Las tres son iguales: al montarlas, gira cada una dos caras del hexágono (120°)
+module excentrica() {
+    // Reborde + disco, con el agujero hexagonal del eje descentrado radio_manivela.
+    // Las tres son iguales: al montarlas, gira cada una dos caras del hexágono (120°).
     difference() {
-        union() {
-            cylinder(d = disco_d, h = disco_t);
-            translate([radio_manivela, 0, 0]) cylinder(d = pin_d, h = disco_t + pin_l);
+        translate([radio_manivela, 0, 0]) {
+            cylinder(d = exc_reborde_d, h = exc_reborde_t);
+            cylinder(d = exc_d, h = exc_reborde_t + exc_t);
         }
-        translate([0, 0, -1]) agujero_hex(disco_t + 2);
-        translate([radio_manivela, 0, -1]) cylinder(d = tornillo_d, h = disco_t + pin_l + 2);
-        // marca en el borde para alinear las manivelas a 120°
-        translate([-disco_d / 2 - 1, -0.6, disco_t - 0.6]) cube([3, 1.2, 1]);
+        translate([0, 0, -1]) agujero_hex(exc_reborde_t + exc_t + 2);
+    }
+}
+
+module arandela() {
+    // Segundo reborde: se mete en el eje después de la biela, con el mismo contorno que la excéntrica
+    difference() {
+        translate([radio_manivela, 0, 0]) cylinder(d = exc_reborde_d, h = exc_reborde_t);
+        translate([0, 0, -1]) agujero_hex(exc_reborde_t + 2);
     }
 }
 
 module biela() {
+    ci = exc_d + 2 * collar_holgura;
     difference() {
         union() {
-            cylinder(d = anillo_d, h = biela_grueso);
+            cylinder(d = ci + 2 * collar_pared, h = biela_grueso);
             translate([-biela_ancho / 2, 0, 0]) cube([biela_ancho, biela_l, biela_grueso]);
         }
-        translate([0, 0, -1]) cylinder(d = pin_d + 0.4, h = biela_grueso + 2);
+        translate([0, 0, -1]) cylinder(d = ci, h = biela_grueso + 2);
     }
 }
 
@@ -322,8 +334,9 @@ module figura_en(i, ang) {
     theta = atan2(radio_manivela * cos(phi), zh - zp);
     xm = x_manivela(i);
 
-    color("orange") translate([xm, 0, altura_eje]) rotate([phi + 90, 0, 0]) rotate([0, 90, 0]) manivela();
-    translate([xm + disco_t, yp, zp]) rotate([theta, 0, 0]) rotate([90, 0, 90]) {
+    color("orange") translate([xm, 0, altura_eje]) rotate([phi + 90, 0, 0]) rotate([0, 90, 0]) excentrica();
+    color("orange") translate([xm + exc_reborde_t + exc_t, 0, altura_eje]) rotate([phi + 90, 0, 0]) rotate([0, 90, 0]) arandela();
+    translate([xm + exc_reborde_t + juego / 2, yp, zp]) rotate([theta, 0, 0]) rotate([90, 0, 90]) {
         color("silver") biela();
         color("white") translate([-(biela_ancho + 0.4) / 2 - 1.5, biela_l, biela_grueso / 2])
             rotate([0, 90, 0]) translate([0, 0, 0]) paleta();
@@ -346,18 +359,20 @@ module montaje() {
 
 module imprimir() {
     translate([0, -10, 0]) translate([0, 0, hex_ec / 2]) eje_hex();
-    for (i = [0:2]) translate([20 + i * 32, 15, 0]) manivela();
-    for (i = [0:2]) translate([120 + i * 16, 10, 0]) biela();
-    for (i = [0:2]) translate([20 + i * 35, 50, 0]) paleta();
-    translate([20, 100, 0]) acople();
-    for (i = [0:1]) translate([60 + i * 30, 105, 0]) rotate([0, 0, 90]) soporte();
-    translate([165, 110, 0]) soporte_motor();
+    for (i = [0:2]) translate([10 + i * 40, 20, 0]) excentrica();
+    for (i = [0:2]) translate([10 + i * 40, 60, 0]) arandela();
+    for (i = [0:2]) translate([145 + i * 39, 20, 0]) biela();
+    for (i = [0:2]) translate([20 + i * 35, 100, 0]) paleta();
+    translate([20, 150, 0]) acople();
+    for (i = [0:1]) translate([60 + i * 30, 155, 0]) rotate([0, 0, 90]) soporte();
+    translate([165, 150, 0]) soporte_motor();
 }
 
 if (MODO == "montaje") montaje();
 else if (MODO == "imprimir") imprimir();
 else if (MODO == "eje") translate([0, 0, hex_ec / 2]) eje_hex();
-else if (MODO == "manivela") manivela();
+else if (MODO == "excentrica") excentrica();
+else if (MODO == "arandela") arandela();
 else if (MODO == "biela") biela();
 else if (MODO == "paleta") paleta();
 else if (MODO == "acople") acople();
