@@ -45,9 +45,12 @@ Caja con tres figuras de Halloween (fantasma, momia y parca de una guirnalda LED
 - Conector USB-C de panel con cables
 - Módulo grabador de voz (30/120 s), altavoz 8 Ω 2 W (30 mm) y un diodo 1N4007 o 1N4148
 - Tornillería: 2 × M3/M4 (motor), 6 × M2 x 6 avellanados de rosca chapa (arandela a excéntrica), 6 × M3x8 avellanados de rosca chapa (soportes desde debajo de la caja), 2 × M2 de rosca chapa (PIR), 10 × rosca chapa M3/2,9 x 10 y 2 × M2 x 8 de rosca chapa (placas electrónicas)
-- Opcional: transistor NPN (2N2222/BC547) + resistencia de 1 kΩ para encender la guirnalda solo mientras bailan
+- Transistor NPN (2N2222/BC547), resistencias de 1 kΩ y 10–22 Ω, condensador 470 µF / 10 V y placa perforada para el reparto de 5 V/GND
+- Las figuras se alimentan del pin 3,3 V del Uno (consumo < 100 mA, sin pilas)
 
 ## Conexiones
+
+![Esquema de conexiones](docs/esquema.png)
 
 | Componente | Pin | Arduino |
 |---|---|---|
@@ -57,7 +60,10 @@ Caja con tres figuras de Halloween (fantasma, momia y parca de una guirnalda LED
 | Módulo de sonido | B+ / GND | 5V **a través de un diodo** (~4,3 V) / GND |
 | Módulo de sonido | Pad de reproducción por flanco | D6 |
 | Módulo de sonido | SPK | Altavoz 8 Ω |
-| Guirnalda (opcional) | Base del NPN vía 1 kΩ | D5 |
+| Figuras LED | Base del NPN vía 1 kΩ | D5 |
+| Figuras LED | + (vía 10–22 Ω) / − al colector del NPN | 3.3V / emisor del NPN a GND |
+| Uno | 5V / GND | 5 V y GND del USB-C (no usar VIN ni el jack) |
+| Condensador 470 µF | + / − | 5 V / GND, junto a la entrada USB-C |
 
 Ajustes del HC-SR501: jumper en **H** (redisparo) y potenciómetro de tiempo al mínimo; la duración del baile la decide el código. Al encender, el PIR necesita ~1 minuto para estabilizarse.
 
