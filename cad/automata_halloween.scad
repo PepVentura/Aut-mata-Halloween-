@@ -10,7 +10,7 @@
 //
 // Piezas a imprimir: 1 eje, 3 excéntricas, 3 arandelas, 3 bielas, 3 paletas, 2 soportes, 1 soporte de motor, 1 acople,
 //                    1 caja y 1 tapa (caben enteras en una cama de 260x260)
-// Tornillería: 2 tornillos M3/M4 para el motor,
+// Tornillería: 2 tornillos M3/M4 para el motor, 6 tornillos M2 x 6 avellanados de rosca chapa (arandelas),
 //              6 tornillos M3x8 avellanados (rosca chapa) desde debajo de la caja para los soportes,
 //              2 tornillos M2 de rosca chapa para la placa del PIR,
 //              10 tornillos de rosca chapa M3 / 2,9 x 10 y 2 de M2 x 8 para las placas electrónicas.
@@ -51,6 +51,8 @@ exc_t         = biela_grueso_def() + juego;
 collar_holgura = 0.6;  // holgura radial collar-disco
 collar_pared   = 2.5;
 function biela_grueso_def() = 4;
+// Unión arandela-excéntrica: 2 tornillos M2 x 6 de rosca chapa, por fuera del eje y dentro del disco
+exc_torn = [[radio_manivela, 9], [radio_manivela, -9]];
 
 // Biela
 biela_ancho  = 5;      // dirección delante-detrás
@@ -142,6 +144,8 @@ module excentrica() {
             cylinder(d = exc_d, h = exc_reborde_t + exc_t);
         }
         translate([0, 0, -1]) agujero_hex(exc_reborde_t + exc_t + 2);
+        // pilotos para los tornillos de la arandela (no atraviesan el reborde)
+        for (t = exc_torn) translate([t[0], t[1], exc_reborde_t]) cylinder(d = 1.7, h = exc_t + 1, $fn = 16);
     }
 }
 
@@ -150,6 +154,11 @@ module arandela() {
     difference() {
         translate([radio_manivela, 0, 0]) cylinder(d = exc_reborde_d, h = exc_reborde_t);
         translate([0, 0, -1]) agujero_hex(exc_reborde_t + 2);
+        // pasantes avellanados para los tornillos M2 (el avellanado mira hacia fuera, contra la cama al imprimir)
+        for (t = exc_torn) translate([t[0], t[1], -1]) {
+            cylinder(d = 2.4, h = exc_reborde_t + 2, $fn = 16);
+            cylinder(d1 = 4.6, d2 = 2.4, h = 2.1, $fn = 24);
+        }
     }
 }
 

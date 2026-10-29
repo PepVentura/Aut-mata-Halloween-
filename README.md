@@ -44,7 +44,7 @@ Caja con tres figuras de Halloween (fantasma, momia y parca de una guirnalda LED
 - Arduino Nano o Uno
 - Conector USB-C de panel con cables
 - Módulo grabador de voz (30/120 s), altavoz 8 Ω 2 W (30 mm) y un diodo 1N4007 o 1N4148
-- Tornillería: 2 × M3/M4 (motor), 6 × M3x8 avellanados de rosca chapa (soportes desde debajo de la caja), 2 × M2 de rosca chapa (PIR), 10 × rosca chapa M3/2,9 x 10 y 2 × M2 x 8 de rosca chapa (placas electrónicas)
+- Tornillería: 2 × M3/M4 (motor), 6 × M2 x 6 avellanados de rosca chapa (arandela a excéntrica), 6 × M3x8 avellanados de rosca chapa (soportes desde debajo de la caja), 2 × M2 de rosca chapa (PIR), 10 × rosca chapa M3/2,9 x 10 y 2 × M2 x 8 de rosca chapa (placas electrónicas)
 - Opcional: transistor NPN (2N2222/BC547) + resistencia de 1 kΩ para encender la guirnalda solo mientras bailan
 
 ## Conexiones
@@ -78,7 +78,7 @@ Mantén el pad REC a masa (o su pulsador) y reproduce el efecto desde el móvil 
 
 1. Atornilla el soporte del motor y los dos soportes del eje desde debajo de la caja.
 2. Fija el motor al soporte y encaja el acople en su eje.
-3. Mete el eje hexagonal por los soportes. Para cada figura, ensarta en este orden: excéntrica (reborde hacia el motor), biela con el collar alrededor del disco y arandela, con el mismo contorno que la excéntrica. Cada excéntrica va girada dos caras del hexágono (120°) respecto a la anterior. Si la arandela queda floja, una gota de cianoacrilato en el hexágono. Un poco de vaselina o grasa de silicona en el disco reduce el ruido.
+3. Mete el eje hexagonal por los soportes. Para cada figura, ensarta en este orden: excéntrica (reborde hacia el motor), biela con el collar alrededor del disco y arandela, con el mismo contorno que la excéntrica y el avellanado hacia fuera. Atornilla la arandela a la excéntrica con dos M2 x 6. Cada excéntrica va girada dos caras del hexágono (120°) respecto a la anterior. Cuando las bielas estén alineadas con los agujeros de la tapa, fija cada excéntrica al eje con una gota de cianoacrilato para que no se desplace. Un poco de vaselina o grasa de silicona en el disco reduce el ruido.
 4. Comprueba girando el eje a mano que da vueltas completas sin enganches.
 5. Pasa las bielas por los agujeros de la tapa, encaja las paletas y pega las figuras por detrás.
 6. Baja los cables de la guirnalda por los agujeros pequeños, dejando un bucle flojo dentro.
