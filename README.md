@@ -58,7 +58,7 @@ Caja con tres figuras de Halloween (fantasma, momia y parca de una guirnalda LED
 | ULN2003 | IN1–IN4 | D8–D11 |
 | ULN2003 | + / − | 5 V y GND del USB-C |
 | Módulo de sonido | B+ / GND | 5V **a través de un diodo** (~4,3 V) / GND |
-| Módulo de sonido | Pad de reproducción por flanco | D6 |
+| Módulo de sonido | PE (reproducción por pulso) | D6 |
 | Módulo de sonido | SPK | Altavoz 8 Ω |
 | Figuras LED | Base del NPN vía 1 kΩ | D5 |
 | Figuras LED | + (vía 10–22 Ω) / − al colector del NPN | 3.3V / emisor del NPN a GND |
@@ -78,7 +78,7 @@ Ajustes del HC-SR501: jumper en **H** (redisparo) y potenciómetro de tiempo al 
 
 ## Grabar el sonido
 
-Mantén el pad REC a masa (o su pulsador) y reproduce el efecto desde el móvil pegado al micrófono, en silencio. Graba unos 20 s para que coincida con `DURACION_BAILE`. El pin D6 dispara la reproducción con un pulso a GND; si con el pulso solo suena un instante, estás usando el pad de reproducción por nivel: cambia al de flanco.
+Consulta el **[manual del módulo de sonido](docs/manual_modulo_sonido.md)**: identificación de pads, conexionado, configuración, cómo grabar (con micrófono o por cable) y solución de problemas. En resumen: graba unos 20 s para que coincida con `DURACION_BAILE` y conecta D6 al pad **PE** (reproducción por pulso).
 
 ## Montaje
 
