@@ -1,19 +1,19 @@
-// Autómata de Halloween: 3 figuras con cigüeñal
-// Motor 28BYJ-48 + driver ULN2003 + sensor PIR HC-SR501
+// Autómata de Halloween: 3 figuras movidas por excéntricas
+// Motor 28BYJ-48 + driver ULN2003 + sensor PIR HC-SR501 + módulo de sonido + figuras LED
+// Manual: docs/manual_arduino.md  ·  Esquema: docs/esquema.png
 //
 // Conexiones:
+//   Alimentación  5 V del USB-C -> pin 5V del Uno (NO a VIN ni al jack); GND común
 //   HC-SR501  VCC -> 5V   GND -> GND   OUT -> D2
 //             Jumper en H (redisparo), potenciómetro de tiempo al mínimo
-//   ULN2003   IN1..IN4 -> D8..D11
-//             + y - del driver a una fuente de 5V aparte (cargador USB),
-//             con GND común con el Arduino
+//   ULN2003   IN1..IN4 -> D8..D11;  + y - a 5 V y GND
 //   Sonido    Módulo grabador de voz (30/120 s):
-//             B+ <- 5V a través de un diodo 1N4007/1N4148 en serie (queda a ~4,3 V)
-//             GND -> GND común
-//             Pad de reproducción POR FLANCO -> D6 (el Arduino solo lo lleva a GND)
+//             B+ <- 5V a través de un diodo 1N4007/1N4148 (queda a ~4,3 V);  GND -> GND
+//             PE (reproducción por pulso) -> D6 (el Arduino solo lo lleva a GND)
 //             SPK -> altavoz 8 ohm
-//   Opcional  D5 -> resistencia 1k -> base de un NPN (2N2222/BC547) que
-//             enciende la guirnalda de LEDs solo mientras bailan
+//   Figuras   3.3V -> resistencia 10-22 ohm -> + figuras;  - figuras -> colector NPN
+//             D5 -> 1k -> base NPN (2N2222/BC547);  emisor -> GND
+//   A0        SIN CONECTAR: se usa su ruido para que cada baile sea distinto
 
 const int PIN_PIR = 2;
 const int PIN_LUZ = 5;

@@ -19,8 +19,8 @@ Caja con tres figuras de Halloween (fantasma, momia y parca de una guirnalda LED
 |---|---|
 | `cad/` | Diseño paramétrico en OpenSCAD (`MODO` elige montaje, piezas, caja, tapa…) |
 | `stl/` | Piezas exportadas listas para laminar |
-| `firmware/` | Sketch de Arduino |
-| `docs/` | Vistas del montaje y plantilla 2D de la tapa |
+| `firmware/` | Sketch definitivo (`automata_halloween`) y sketch de prueba de componentes (`prueba_componentes`) |
+| `docs/` | Manuales, esquema de conexiones, vistas del montaje y plantilla 2D de la tapa |
 
 ## Piezas a imprimir
 
@@ -51,6 +51,8 @@ Caja con tres figuras de Halloween (fantasma, momia y parca de una guirnalda LED
 ## Conexiones
 
 ![Esquema de conexiones](docs/esquema.png)
+
+Manuales: **[Arduino Uno](docs/manual_arduino.md)** (pines, alimentación, programación, pruebas por partes, configuración y problemas) y **[módulo de sonido](docs/manual_modulo_sonido.md)**.
 
 | Componente | Pin | Arduino |
 |---|---|---|
