@@ -38,6 +38,10 @@ Mientras baila no vuelve a leer el sensor. Si al terminar los 5 s de descanso si
 
 ## 2. Pines utilizados
 
+![Conexiones en el Arduino Uno](uno_conexiones.png)
+
+*Pinout oficial del Arduino Uno R3 (Arduino.cc, CC BY-SA 4.0), con las conexiones del autómata marcadas encima.*
+
 | Pin del Uno | Se conecta a | Función |
 |---|---|---|
 | **5V** | 5 V del USB-C (placa de reparto) | Alimentación del Uno |
